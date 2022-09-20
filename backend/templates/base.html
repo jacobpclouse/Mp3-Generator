@@ -23,7 +23,9 @@
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='/images/favicon3.svg') }}">
   
   <!-- Title -->
-  <title>MP3 Converter</title>
+  {% block header_title %}
+    <title class="html_title"> {{html_title}}</title> 
+  {% endblock %}
 </head>
 
 <body>
@@ -52,9 +54,10 @@
 
     </div>
 
-    <div class="container-right">
-      <!-- Pass name of the page here -->
-      <h1><i class="fas fa-bug"></i> Upload File</h1>
+    <div class="container-right content">
+      <!-- Pass in info to from specific page -->
+      <!-- <h1><i class="fas fa-bug"></i> Upload File</h1> -->
+      {% block content %} {% endblock %}
 
 
 
