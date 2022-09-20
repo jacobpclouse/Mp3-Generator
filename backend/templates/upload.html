@@ -1,12 +1,14 @@
+<!-- This page uses 'base.html' as a template and builds off it -->
 {% extends 'base.html' %}
 
-<!-- {% block header_title_block %}
-    <title class="html_title">MP3 Converter</title> 
-{% endblock %} -->
 
+<!-- Main Content For upload -->
 {% block content %}
     <h1>{% block title %} {{html_title}} {% endblock %}</h1>
-    <h1>Hello World!</h1>
-    <h2>Welcome to FlaskApp!</h2>
+    <form method=post enctype=multipart/form-data>
+      <input type=file name=file>
+      <input type=submit value=Upload>
+    </form>
+    <!-- https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/#a-gentle-introduction -->
 
 {% endblock %}

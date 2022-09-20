@@ -7,5 +7,6 @@ A web app that uses Python, Flask, Angular and more to generate mp3s from scans 
 - Uploading files to flask: https://pythonbasics.org/flask-upload-file/
 - Debug Mode: https://stackoverflow.com/questions/52162882/set-flask-environment-to-development-mode-as-default
 - Upload Image to Flask: https://stackoverflow.com/questions/44926465/upload-image-in-flask
+- Setting up Bootstrap: https://getbootstrap.com/docs/4.3/getting-started/introduction/
 
  
