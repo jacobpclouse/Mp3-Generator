@@ -11,4 +11,7 @@
     </form>
     <!-- https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/#a-gentle-introduction -->
 
+    {% if html_file != '' %}
+      <h5>File Uploaded: {% block html_file %} {{html_file}} {% endblock %}</h5>
+    {% endif %}
 {% endblock %}
