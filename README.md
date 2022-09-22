@@ -1,6 +1,10 @@
 # Mp3-Generator
 A web app that uses Python, Flask, Angular and more to generate mp3s from scans of text
 
+# Installs required:
+- Need to have all libraries listed in the app installed on your machine with pip **
+- You need to have Python-tesseract installed (on linux, you can use: sudo apt-get install tesseract-ocr)
+
 ## Resources Used:
 - Flask and Templates: https://www.digitalocean.com/community/tutorials/how-to-use-templates-in-a-flask-application#step-4-using-conditionals-and-loops
 - How To Create Your First Web Application Using Flask and Python 3: https://www.digitalocean.com/community/tutorials/how-to-create-your-first-web-application-using-flask-and-python-3
@@ -10,5 +14,7 @@ A web app that uses Python, Flask, Angular and more to generate mp3s from scans 
 - Setting up Bootstrap: https://getbootstrap.com/docs/4.3/getting-started/introduction/
 - Flask Requests and API Documentation: https://flask.palletsprojects.com/en/2.2.x/api/
 - Setting session type: https://stackoverflow.com/questions/26080872/secret-key-not-set-in-flask-session-using-the-flask-session-extension
-- 
+- Python | Convert image to text and then to speech: https://www.geeksforgeeks.org/python-convert-image-to-text-and-then-to-speech/
+- Extract Text from Image using Python: https://towardsdatascience.com/extract-text-from-image-using-python-8e8cfbbce743
+- Python-tesseract installation on Ubuntu: https://stackoverflow.com/questions/36107233/python-tesseract-installation-on-ubuntu
  
