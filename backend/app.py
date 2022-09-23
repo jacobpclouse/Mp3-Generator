@@ -1,9 +1,12 @@
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-# Importing Libraries
+# Importing Libraries / Modules 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 import os
 from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
+from PIL import Image # Imports PIL module 
+import pytesseract # will convert the image to text string
+
 
 # Folder to save upload photos to and file types 
 UPLOAD_FOLDER = './UPLOADS'
@@ -32,6 +35,14 @@ def getExtension(inputFile):
     return '.' and inputFile.rsplit(".",1)[1].lower()
 
 
+# will open the pic file in the uploads folder and convert to text
+def openPic(filenameAndExtenstion):
+    imageToOpen = Image.open(rf"./UPLOADS/{filenameAndExtenstion}") # sets url
+    result = pytesseract.image_to_string(imageToOpen) 
+    # write text in a text file and save it to source path   
+    with open('./UPLOADS/outputText.txt',mode ='w') as file:     
+        file.write(result)
+        print(result)
 
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -63,10 +74,14 @@ def upload_file():
             secureTheFile = secure_filename(file.filename)
             extensionType = getExtension(secureTheFile)
             filename = "Temp_Pic_Upload." + extensionType
-            #filename = secure_filename(file.filename)
+                    #filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             uploaded_file = secureTheFile
-            ##return redirect(url_for('download_file', name=filename))
+                    ##return redirect(url_for('download_file', name=filename))
+
+            # function to convert to text
+            openPic(filename)
+
             
 
 
