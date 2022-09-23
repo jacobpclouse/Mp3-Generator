@@ -21,3 +21,4 @@ A web app that uses Python, Flask, Angular and more to generate mp3s from scans 
 - Convert Text to Speech in Python: https://www.geeksforgeeks.org/convert-text-speech-python/
 - How to delete the contents of a folder?: https://stackoverflow.com/questions/185936/how-to-delete-the-contents-of-a-folder
 - How to change downloading name in Flask?: https://stackoverflow.com/questions/41543951/how-to-change-downloading-name-in-flask
+- Receive or Return files-Flask API: https://medium.com/analytics-vidhya/receive-or-return-files-flask-api-8389d42b0684
