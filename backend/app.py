@@ -6,6 +6,7 @@ from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 from PIL import Image # Imports PIL module 
 import pytesseract # will convert the image to text string
+from gtts import gTTS # Import module for text to speech conversion
 
 
 # Folder to save upload photos to and file types 
@@ -26,23 +27,39 @@ app.config['SESSION_TYPE'] = 'filesystem'
 # Functions
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+# used to find ending type for file AND checking to make sure that it is an allowed type
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# used to find ending type for file
+
+# used to find ending type for file only (for creating temp pic in UPLOADS)
 def getExtension(inputFile):
     return '.' and inputFile.rsplit(".",1)[1].lower()
 
 
-# will open the pic file in the uploads folder and convert to text
+
+# will open the pic file in the uploads folder, convert to text, then convert text to mp3
 def openPic(filenameAndExtenstion):
+
+    """ This portion Converts Img to Text """
     imageToOpen = Image.open(rf"./UPLOADS/{filenameAndExtenstion}") # sets url
     result = pytesseract.image_to_string(imageToOpen) 
     # write text in a text file and save it to source path   
     with open('./UPLOADS/outputText.txt',mode ='w') as file:     
         file.write(result)
         print(result)
+
+
+    """ This portion Converts Text to Mp3 """
+    # Language in which you want to convert
+    language = 'en'
+
+    # Passing the text and language to the engine, slow=False means converted audio will have high speed
+    myobj = gTTS(text=result, lang=language, slow=False)
+
+    # Saving the converted audio in a mp3 file 
+    myobj.save("./UPLOADS/convertedMessage.mp3")
 
 
 

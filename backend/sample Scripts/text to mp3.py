@@ -22,8 +22,7 @@ language = 'en'
 # have a high speed
 myobj = gTTS(text=mytext, lang=language, slow=False)
 
-# Saving the converted audio in a mp3 file named
-# welcome
+# Saving the converted audio in a mp3 file 
 myobj.save("sampletext.mp3")
 
 # Playing the converted file
