@@ -45,6 +45,9 @@ def openPic(filenameAndExtenstion):
         print(result)
 
 
+
+## NEED DELETE function or to add it all on to an existing function
+
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Routes
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -73,6 +76,8 @@ def upload_file():
         if file and allowed_file(file.filename):
             secureTheFile = secure_filename(file.filename)
             extensionType = getExtension(secureTheFile)
+
+            # Filename below - Important for functions 
             filename = "Temp_Pic_Upload." + extensionType
                     #filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))

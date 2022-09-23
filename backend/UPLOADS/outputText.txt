@@ -1,6 +1,0 @@
-This is the first line of
-this text example.
-
-This is the second line
-of the same text.
-
