@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # source: https://towardsdatascience.com/encrypt-and-decrypt-files-using-python-python-programming-pyshark-a67774bbf9f4
 
 from cryptography.fernet import Fernet # will be used for encrypting output
@@ -18,3 +20,5 @@ decrypted = f.decrypt(encrypted)
 ## SAVING DECRYPTED MESSAGE
 with open('decryptedMessage.mp3', 'wb') as decrypted_file:
     decrypted_file.write(decrypted)
+
+
