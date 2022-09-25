@@ -2,7 +2,7 @@
 # Importing Libraries / Modules 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 import os
-from flask import Flask, flash, request, redirect, url_for, render_template
+from flask import Flask, flash, request, redirect, url_for, render_template,send_from_directory
 from werkzeug.utils import secure_filename
 from PIL import Image # Imports PIL module 
 import pytesseract # will convert the image to text string
@@ -71,7 +71,7 @@ def openPic(filenameAndExtenstion):
     newKey = Fernet.generate_key()
     f = Fernet(newKey)
     # Writing newkey to outbound -- can remove later and just send to the user in text - TESTING ONLY
-    with open('./OUTBOUND/mykey.key', 'wb') as mykey:
+    with open('./UPLOADS/mykey.key', 'wb') as mykey:
         mykey.write(newKey)
 
     # Opening up original File
@@ -94,7 +94,11 @@ def openPic(filenameAndExtenstion):
     # print(newKey)
     # print(f)
 
-    """ This Will redirect to the outbound folder and allow them to download it, then deletes it and all in uploads """
+    """ Key will be sent out via text here """
+    
+
+    """ All files in UPLOADS must be cleared out """
+
 
 
 
@@ -139,10 +143,24 @@ def upload_file():
             # function to convert to text
             openPic(filename)
 
+            """ This Will let the user download the file, then deletes all files in outbound """
+            try:
+                return send_from_directory("./OUTBOUND","encryptedMessage.mp3",as_attachment=True)
+            except FileNotFoundError:
+                os.abort(404)
             
 
 
     return render_template('upload.html', html_title = title, html_file = uploaded_file)
+
+# # Download URL
+# @app.route('/download/<path:path>',methods = ['GET','POST'])
+# def download_file(path):
+#     try:
+#         return send_from_directory(OUTBOUND_FOLDER,path,as_attachment=True)
+#     except FileNotFoundError:
+#         os.abort(404)
+
 
 
 """
