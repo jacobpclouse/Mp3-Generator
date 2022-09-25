@@ -23,4 +23,5 @@ A web app that uses Python, Flask, Angular and more to generate mp3s from scans 
 - How to change downloading name in Flask?: https://stackoverflow.com/questions/41543951/how-to-change-downloading-name-in-flask
 - Receive or Return files-Flask API: https://medium.com/analytics-vidhya/receive-or-return-files-flask-api-8389d42b0684
 - Encrypting/Decrypting Files in Python: https://towardsdatascience.com/encrypt-and-decrypt-files-using-python-python-programming-pyshark-a67774bbf9f4
-- 
+- 4 Different Ways To Send Text Messages (SMS) with Python: https://www.courier.com/guides/python-send-sms/
+- Plvio: https://console.plivo.com/dashboard/
