@@ -7,11 +7,15 @@ from werkzeug.utils import secure_filename
 from PIL import Image # Imports PIL module 
 import pytesseract # will convert the image to text string
 from gtts import gTTS # Import module for text to speech conversion
+from cryptography.fernet import Fernet # will be used for encrypting output
 
 
 # Folder to save upload photos to and file types 
 UPLOAD_FOLDER = './UPLOADS'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+
+# Folder to save files that I will be sending to the user
+OUTBOUND_FOLDER = './OUTBOUND'
 
 
 
@@ -60,6 +64,37 @@ def openPic(filenameAndExtenstion):
 
     # Saving the converted audio in a mp3 file 
     myobj.save("./UPLOADS/convertedMessage.mp3")
+
+
+    """ This portion Encrypts the Mp3 and saves to the outbound folder (using datetime) """
+    # Generating key
+    newKey = Fernet.generate_key()
+    f = Fernet(newKey)
+    # Writing newkey to outbound -- can remove later and just send to the user in text - TESTING ONLY
+    with open('./OUTBOUND/mykey.key', 'wb') as mykey:
+        mykey.write(newKey)
+
+    # Opening up original File
+    with open('./UPLOADS/convertedMessage.mp3', 'rb') as original_file:
+        original = original_file.read()
+
+    # Encrypting
+    encrypted = f.encrypt(original)
+
+    # Saving to output
+    with open ('./OUTBOUND/encryptedMessage.mp3', 'wb') as encrypted_file:
+        encrypted_file.write(encrypted)
+    
+    ## Below printing keys to console, only for testing -- disable for prd
+    '''
+    Example output:
+    print(newKey) will be:  b'jxM5ubmiAzQ79PYH2XFjFCY0LbdturJvVlwzNQaJAlI='
+    print(f) will be:       <cryptography.fernet.Fernet object at 0x7f248f769160>
+    '''
+    # print(newKey)
+    # print(f)
+
+    """ This Will redirect to the outbound folder and allow them to download it, then deletes it and all in uploads """
 
 
 
