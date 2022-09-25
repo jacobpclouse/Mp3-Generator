@@ -140,7 +140,7 @@ def upload_file():
             uploaded_file = secureTheFile
                     ##return redirect(url_for('download_file', name=filename))
 
-            # function to convert to text, convert to mp3, encrypt and clean up UPLOADS
+            # function to convert to text
             openPic(filename)
 
             """ This Will let the user download the file, then deletes all files in outbound """
