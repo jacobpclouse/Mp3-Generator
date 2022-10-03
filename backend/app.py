@@ -8,7 +8,10 @@ from PIL import Image # Imports PIL module
 import pytesseract # will convert the image to text string
 from gtts import gTTS # Import module for text to speech conversion
 from cryptography.fernet import Fernet # will be used for encrypting output
-
+import base64
+import sendgrid
+from sendgrid.helpers.mail import Mail, Email, To, Content, Attachment, FileContent, FileName, FileType, Disposition
+import datetime
 
 # Folder to save upload photos to and file types 
 UPLOAD_FOLDER = './UPLOADS'
@@ -31,6 +34,16 @@ app.config['SESSION_TYPE'] = 'filesystem'
 # Functions
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+# --- Function to Defang date time ---
+def defang_datetime():
+    current_datetime = f"_{datetime.datetime.now()}"
+
+    current_datetime = current_datetime.replace(":","_")
+    current_datetime = current_datetime.replace(".","-")
+    current_datetime = current_datetime.replace(" ","_")
+    
+    return current_datetime
+
 # used to find ending type for file AND checking to make sure that it is an allowed type
 def allowed_file(filename):
     return '.' in filename and \
@@ -41,6 +54,44 @@ def allowed_file(filename):
 def getExtension(inputFile):
     return '.' and inputFile.rsplit(".",1)[1].lower()
 
+
+
+# Function to send email with attachment
+def sendEmailFunc(sendFROMemail,sendTOemail,subjectLine,contentOfMessage,attachmentName,DesiredFilename):
+
+    current_datetime = defang_datetime() #getting datetime for the name of the file
+
+    # opening the file/decoding/saving it
+    with open(f'{attachmentName}', 'rb') as f:
+        data = f.read()
+        f.close()
+    encoded_file = base64.b64encode(data).decode()    
+
+    # saving api key in the environment
+    sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
+
+    from_email = Email(f"{sendFROMemail}")  # Change to your verified sender
+    to_email = To(f"{sendTOemail}")  # Change to your recipient
+    subject = f"{subjectLine}"
+    #content = Content("text/plain", f"{contentOfMessage}")
+    html_content=Content('text/html', f'<h1>Test Mail</h1><p>{contentOfMessage}</p><p><b>Date Sent: {current_datetime}</b></p>')
+    attachedFile = Attachment(
+        FileContent(encoded_file),
+        FileName(f'{current_datetime}__{DesiredFilename}'),
+        FileType('mp3'), # try removing this, does it still work?
+        Disposition('attachment')
+    )
+
+    mail = Mail(from_email, to_email, subject, html_content)
+    mail.attachment = attachedFile  # tacking on the attachment
+
+    # Get a JSON-ready representation of the Mail object
+    mail_json = mail.get()
+
+    # Send an HTTP POST request to /mail/send
+    response = sg.client.mail.send.post(request_body=mail_json)
+    print(response.status_code)
+    print(response.headers)
 
 
 # will open the pic file in the uploads folder, convert to text, then convert text to mp3
@@ -93,6 +144,19 @@ def openPic(filenameAndExtenstion):
     '''
     # print(newKey)
     # print(f)
+
+    """ Data for email will be set here """
+    print("Starting Sending Email...")
+    sourceEmail = "mp3converterandencryptor@gmail.com"
+    outboundEmail = "subInUsersEmailFromFormHere@gmail.com"
+
+    subjectOfEmail = "Here is Your Converted MP3!"
+    contentOfEmail = "Your file will be attached below, you need to decrypt it with your key before you can listen to it."
+    attachmentOfEmail = "./OUTBOUND/encryptedMessage.mp3" 
+    desiredEmailFilename = "encryptedMessage.mp3"
+
+    sendEmailFunc(sourceEmail,outboundEmail,subjectOfEmail,contentOfEmail,attachmentOfEmail,desiredEmailFilename)
+    print("Finished Sending Email!")
 
     """ Key will be sent out via text here """
     
@@ -148,6 +212,8 @@ def upload_file():
                 return send_from_directory("./OUTBOUND","encryptedMessage.mp3",as_attachment=True)
             except FileNotFoundError:
                 os.abort(404)
+
+            
             
 
 
