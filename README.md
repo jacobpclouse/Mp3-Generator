@@ -27,3 +27,5 @@ A web app that uses Python, Flask, Angular and more to generate mp3s from scans 
 - 4 Different Ways To Send Text Messages (SMS) with Python: https://www.courier.com/guides/python-send-sms/
 - Plvio: https://console.plivo.com/dashboard/
 - Making HTML form fields required: https://www.w3schools.com/tags/att_input_required.asp
+- Copy files to directory: https://www.tutorialspoint.com/How-to-copy-files-to-a-new-directory-using-Python
+- Creating a zip file: https://thispointer.com/python-how-to-create-a-zip-archive-from-multiple-files-or-directory/

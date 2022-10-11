@@ -1,7 +1,7 @@
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Importing Libraries / Modules 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-import os
+import os,shutil
 from flask import Flask, flash, request, redirect, url_for, render_template,send_from_directory
 from werkzeug.utils import secure_filename
 from PIL import Image # Imports PIL module 
@@ -12,6 +12,8 @@ import base64
 import sendgrid
 from sendgrid.helpers.mail import Mail, Email, To, Content, Attachment, FileContent, FileName, FileType, Disposition
 import datetime
+from zipfile import ZipFile
+from os.path import basename
 
 # Folder to save upload photos to and file types 
 UPLOAD_FOLDER = './UPLOADS'
@@ -54,6 +56,23 @@ def allowed_file(filename):
 def getExtension(inputFile):
     return '.' and inputFile.rsplit(".",1)[1].lower()
 
+
+# copy readme and decrypt to the OUTBOUND folder and zip all the files (use "OUTBOUND")
+def copyAndZip(destinationDirectory,outputZipFileName,originDirectory):
+    files = [f'{originDirectory}decrypt.py', f'{originDirectory}readme.txt']
+    for f in files:
+        shutil.copy(f, destinationDirectory)
+
+    #shutil.make_archive(outputZipFileName, 'zip', destinationDirectory)
+    with ZipFile(f'{outputZipFileName}.zip','w') as myzip:
+        print("get all files in this directory")
+        # Iterate over all the files in directory
+        for folderName, subfolders, filenames in os.walk(destinationDirectory):
+            for filename in filenames:
+                #create complete filepath of file in directory
+                filePath = os.path.join(folderName, filename)
+                # Add file to zip
+                myzip.write(filePath, basename(filePath))
 
 
 # Function to send email with attachment
@@ -136,6 +155,10 @@ def openPic(filenameAndExtenstion,userEmail):
     with open ('./OUTBOUND/encryptedMessage.mp3', 'wb') as encrypted_file:
         encrypted_file.write(encrypted)
     
+    # Copy decrypt and readme to the outboud directory and then zip them
+    outgoingZip = 'Encrypted MP3 Conversion Archive & Data'
+    copyAndZip('./OUTBOUND',outgoingZip,'./IMPORTANT_FILES/')
+
     ## Below printing keys to console, only for testing -- disable for prd
     '''
     Example output:
@@ -152,8 +175,10 @@ def openPic(filenameAndExtenstion,userEmail):
 
     subjectOfEmail = "Here is Your Converted MP3!"
     contentOfEmail = "Your file will be attached below, you need to decrypt it with your key before you can listen to it."
-    attachmentOfEmail = "./OUTBOUND/encryptedMessage.mp3" 
-    desiredEmailFilename = "encryptedMessage.mp3"
+    #attachmentOfEmail = "./OUTBOUND/encryptedMessage.mp3" 
+    #desiredEmailFilename = "encryptedMessage.mp3"
+    attachmentOfEmail = f"{outgoingZip}.zip" 
+    desiredEmailFilename = f"{outgoingZip}.zip"
 
     sendEmailFunc(sourceEmail,outboundEmail,subjectOfEmail,contentOfEmail,attachmentOfEmail,desiredEmailFilename)
     print("Finished Sending Email!")
