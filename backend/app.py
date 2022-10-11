@@ -95,7 +95,7 @@ def sendEmailFunc(sendFROMemail,sendTOemail,subjectLine,contentOfMessage,attachm
 
 
 # will open the pic file in the uploads folder, convert to text, then convert text to mp3
-def openPic(filenameAndExtenstion):
+def openPic(filenameAndExtenstion,userEmail):
 
     """ This portion Converts Img to Text """
     imageToOpen = Image.open(rf"./UPLOADS/{filenameAndExtenstion}") # sets url
@@ -148,7 +148,7 @@ def openPic(filenameAndExtenstion):
     """ Data for email will be set here """
     print("Starting Sending Email...")
     sourceEmail = "mp3converterandencryptor@gmail.com"
-    outboundEmail = "subInUsersEmailFromFormHere@gmail.com"
+    outboundEmail = userEmail
 
     subjectOfEmail = "Here is Your Converted MP3!"
     contentOfEmail = "Your file will be attached below, you need to decrypt it with your key before you can listen to it."
@@ -194,6 +194,14 @@ def upload_file():
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
+            # getting input with name = fname in HTML form
+            first_name = request.form.get("fname")
+            # getting input with name = lname in HTML form
+            last_name = request.form.get("lname")
+            # getting input with email = userEmail in HTML form
+            form_email = request.form.get("userEmail")
+            print(f"{first_name} {last_name}")
+
             secureTheFile = secure_filename(file.filename)
             extensionType = getExtension(secureTheFile)
 
@@ -205,7 +213,7 @@ def upload_file():
                     ##return redirect(url_for('download_file', name=filename))
 
             # function to convert to text, convert to mp3, encrypt and clean up UPLOADS
-            openPic(filename)
+            openPic(filename,form_email)
 
             """ This Will let the user download the file, then deletes all files in outbound """
             try:
