@@ -26,3 +26,4 @@ A web app that uses Python, Flask, Angular and more to generate mp3s from scans 
 - Encrypting/Decrypting Files in Python: https://towardsdatascience.com/encrypt-and-decrypt-files-using-python-python-programming-pyshark-a67774bbf9f4
 - 4 Different Ways To Send Text Messages (SMS) with Python: https://www.courier.com/guides/python-send-sms/
 - Plvio: https://console.plivo.com/dashboard/
+- Making HTML form fields required: https://www.w3schools.com/tags/att_input_required.asp

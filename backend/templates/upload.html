@@ -7,15 +7,20 @@
     <h1>{% block title %} {{html_title}} {% endblock %}</h1>
     <form method=post enctype=multipart/form-data>
       <!-- Adding form data fields below -->
-      <label for="firstname">First Name:</label>
-      <input type="text" id="firstname" name="fname" placeholder="Your First Name Here">
-      <label for="lastname">Last Name:</label>
-      <input type="text" id="lastname" name="lname" placeholder="Your Last Name Here">
-      <label for="email">Email</label>
-      <input type="text" id="email" name="userEmail" placeholder="youremail@example.com">
-      <!-- end of new fields - Orig below -->
-      <input type=file name=file>
-      <input type=submit value=Upload>
+      <label for="firstname">Enter your First Name:</label>
+      <input type="text" id="firstname" name="fname" placeholder="Your First Name Here" required>
+
+      <label for="lastname">Enter your Last Name:</label>
+      <input type="text" id="lastname" name="lname" placeholder="Your Last Name Here" required>
+
+      <label for="email">Enter your email address:</label>
+      <input type="text" id="email" name="userEmail" placeholder="youremail@example.com" required>
+
+      <label for="phone">Enter your phone number:</label>
+      <input type="tel" id="phone" name="userPhone" placeholder="518-867-5309" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+      <!-- Below: file upload section -->
+      <input type=file name=file >
+      <input type=submit value=Upload class="btn" id="button-standout">
     </form>
     <!-- https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/#a-gentle-introduction -->
 

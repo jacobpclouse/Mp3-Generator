@@ -194,13 +194,18 @@ def upload_file():
             flash('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
+            # GRABBING FORM INFO -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
             # getting input with name = fname in HTML form
             first_name = request.form.get("fname")
             # getting input with name = lname in HTML form
             last_name = request.form.get("lname")
             # getting input with email = userEmail in HTML form
             form_email = request.form.get("userEmail")
-            print(f"{first_name} {last_name}")
+            # getting input with email = userEmail in HTML form
+            form_phone = request.form.get("userPhone")
+
+            print(f"User's Name: {first_name} {last_name}")
+            print(f"User's Phone: {form_phone}")
 
             secureTheFile = secure_filename(file.filename)
             extensionType = getExtension(secureTheFile)
