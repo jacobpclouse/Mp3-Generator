@@ -74,7 +74,7 @@ def sendEmailFunc(sendFROMemail,sendTOemail,subjectLine,contentOfMessage,attachm
     to_email = To(f"{sendTOemail}")  # Change to your recipient
     subject = f"{subjectLine}"
     #content = Content("text/plain", f"{contentOfMessage}")
-    html_content=Content('text/html', f'<h1>Test Mail</h1><p>{contentOfMessage}</p><p><b>Date Sent: {current_datetime}</b></p>')
+    html_content=Content('text/html', f'<h1>Thank you for using JPC Converter / Encryptor!</h1><p>{contentOfMessage}</p><p><b>Date Sent: {current_datetime}</b></p>')
     attachedFile = Attachment(
         FileContent(encoded_file),
         FileName(f'{current_datetime}__{DesiredFilename}'),

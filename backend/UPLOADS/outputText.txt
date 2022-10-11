@@ -1,28 +1,100 @@
-It’s Up To Me
+(518) 653-5318 J a co b C lo u se jacobpclouse.me
 
-I get discouraged now and then
-When there are clouds of gray,
-Until I think about the things
-That happened yesterday.
+ 
 
-I do not mean the day before
-Or those of months ago,
-But all the yesterdays in which
-I had the chance to grow.
+Albany, NY github.com/jacobpclouse
+clouse.jp@gmail.com Software Developer linkedin.com/in/jpclouse
+TECHNICAL EXPERIENCE
 
-I think of opportunities
-That I allowed to die,
-And those I took advantage of
-Before they passed me by.
-And I remember that the past
-Presented quite a plight,
-But somehow I endured it and
-The future seemed all right.
-And I remind myself that I
+Software Developer Jan 2022 — Present
+New York State Office of Information Technology Albany, NY
 
-Am capable and free,
-And my success and happiness
-Are really up to me.
++ Worked across teams to redesign and refactor assembler transaction macros, reducing permit record processing time by 10%.
 
-James J. Metcalfe
++ Developed a mainframe application that allows DMV users to federal credentials to verify their identity. This eliminates
+redundant checks, streamlines renewals and reduces the workload for the both the end user and DMV employees.
+
+* Built and maintained an application that scaled to 20,000 daily users, communicating with cross-functional teams regarding
+business rules, layout, and design enabling 19 million NYS residents to renew licenses, pay fees and earn permits.
+
++ Participated in code reviews and gained feedback from senior engineers and experience in writing custom, scalable code.
+
+Web Application Developer Oct 2021 — Present
+
+SUNY Ubiquitous Networking Laboratory Albany, NY
+
++ Asa part of the Rural Emergency Preparedness and Response team, maintained the online web dashboard to track signal
+strength, weather conditions, and emergency preparedness information (EPR) across the capital region using Angular.JS with
+Java, XML and MySQL database.
+
+* Created and configured perfSONAR toolkit instance on a local CentOS server to test the UAlbany’s network connectivity
+(throughput, jitter, traceroute, ping, etc) against multiple international nodes and documented findings.
+
+* Collected data and analyzed traffic patterns to create documentation in Python utilizing Django, RESTful APIs, and Cassandra.
+
+Webmaster Jan 2021 — Present
+
+Ravena Coeymans Historic Society Coeymans, NY
+
++ Setup website and configured plugins from scratch - coeymanshistory.org.
+
++ Oversee weekly project meetings with my supervisor to discuss viability of new features and overall site security.
+
++ Independently researched and developed a solution for a long-standing client requests regarding site migration, backups and
+alias domains. Worked in cPanel to setup IP blocking, email forwarding and install WordPress.
+
++ Worked with our hosting providers and domain registrar to troubleshoot configuration issues with WordPress and plugins.
+
+EDUCATION & CERTIFICATIONS
+
+ 
+
+ 
+
+Computer Science MS, Georgia Institute of Technology Aug 2022 - Present
+Computer Information Systems BS, Sage College of Albany — GPA: 3.744, Departmental Honors Aug 2014 - May 2017
+CompTIA Certifications: Security+ — IT Fundamentals+
+University at Albany Certifications: Cloud Computing with Microsoft Azure — Mobile App Design
+PROJECTS
+
+Image to MP3 Converter / Encrypter (Built with Python, Flask, Bootstrap, SQLite, JavaScript, Twilio Sendgrid API, SMS)
+
++ Lets a user upload an image or screenshot of text and will output an encrypted mp3 of the text.
+
++ Ituses Twilio’s Sendgrid API to send the encrypted mp3 to the user as an attachment with the key sent via Text SMS.
+
++ Users must authenticate in order to utilize the service with credentials securely stored in an encrypted database.
+
+* Decryption is done via another upload or a local script that can be run on the user’s machine.
+
++ The site uses Bootstrap and CSS variables to be both responsive and user friendly.
+
+Karnivalli (React, Django, Redis, PostgreSQL, Heroku)
+
+* Series of multi-player mini-games, login/register, in-game chat and live game watching functionalities. Coordinated weekly
+sprints, developed initial project layout, maintained front end styles and drafted SRS documentation.
+
+Anonymizer (Python, TCP, UDP Stop and Wait)
+
++ Anonymizer is a client-server application that anonymizes user-specified words from a text file via two reliable data transport
+protocols: TCP and UDP Stop-and-Wait. Built with network sockets and verified data integrity with packet analysis.
+
+ 
+
+SKILLS
+
+Languages Python, JavaScript, Assembler, Java, C#, C/C++, SQL, HTML, CSS, XML, JSON, LaTeX
+Frameworks React.js , Angular.js, Flask, Bootstrap, Django, SOAP/REST, WordPress
+
+Development Tools Git, Docker, Jira, Figma, CentOS, cPanel, MySql, MS SQL Server, PostgreSQL, MongoDB
+
+RELEVANT ACTIVITIES
+
+ 
+
+Secureworks Cybersecurity Literacy Challenge — Python URL Virus Checker 2022 Hackathon Participant
++ Checks for malicious URLs with VirusTotal’s API & outputs results to a local text file, logs all test scans run.
+Python Simplified Summer Code Jam — Python Job Board Web Scraper 2022 Hackathon Participant
+
++ Uses Python to scrap NYS’s public jobs website and export it into a CSV doc & JSON file using pandas & BeautifulSoap.
 
