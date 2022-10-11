@@ -5,6 +5,7 @@ A web app that uses Python, Flask, Angular and more to generate mp3s from scans 
 - Need to have all libraries listed in the app installed on your machine with pip **
 - You need to have Python-tesseract installed (on linux, you can use: sudo apt-get install tesseract-ocr)
 - You need to have gTTS installed (on linux, you can use: pip install gtts)
+- You need to have the API key saved to the terminal before you can send emails (it will fail otherwise)
 
 ## Resources Used:
 - Flask and Templates: https://www.digitalocean.com/community/tutorials/how-to-use-templates-in-a-flask-application#step-4-using-conditionals-and-loops
