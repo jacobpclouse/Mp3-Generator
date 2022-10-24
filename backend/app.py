@@ -247,7 +247,8 @@ def upload_file():
 
             """ This Will let the user download the file, then deletes all files in outbound """
             try:
-                return send_from_directory("./OUTBOUND","encryptedMessage.mp3",as_attachment=True)
+                #return send_from_directory("./OUTBOUND","encryptedMessage.mp3",as_attachment=True)
+                return send_from_directory("./UPLOADS","mykey.key",as_attachment=True)
             except FileNotFoundError:
                 os.abort(404)
 
