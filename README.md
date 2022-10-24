@@ -29,3 +29,4 @@ A web app that uses Python, Flask, Angular and more to generate mp3s from scans 
 - Making HTML form fields required: https://www.w3schools.com/tags/att_input_required.asp
 - Copy files to directory: https://www.tutorialspoint.com/How-to-copy-files-to-a-new-directory-using-Python
 - Creating a zip file: https://thispointer.com/python-how-to-create-a-zip-archive-from-multiple-files-or-directory/
+- Issue with creating zip: https://stackoverflow.com/questions/71053352/valueerror-write-requires-mode-w-x-or-a-in-python-zipfile
