@@ -76,7 +76,7 @@ def copyAndZip(destinationDirectory,outputZipFileName,originDirectory):
 
 
 # Function to send email with attachment
-def sendEmailFunc(sendFROMemail,sendTOemail,subjectLine,contentOfMessage,attachmentName,DesiredFilename):
+def sendEmailFunc(sendFROMemail,sendTOemail,subjectLine,contentOfMessage,attachmentName,DesiredFilename,firstName,lastName):
 
     current_datetime = defang_datetime() #getting datetime for the name of the file
 
@@ -91,9 +91,9 @@ def sendEmailFunc(sendFROMemail,sendTOemail,subjectLine,contentOfMessage,attachm
 
     from_email = Email(f"{sendFROMemail}")  # Change to your verified sender
     to_email = To(f"{sendTOemail}")  # Change to your recipient
-    subject = f"{subjectLine}"
+    subject = f"{subjectLine}-{firstName} {lastName}"
     #content = Content("text/plain", f"{contentOfMessage}")
-    html_content=Content('text/html', f'<h1>Thank you for using JPC Converter / Encryptor!</h1><p>{contentOfMessage}</p><p><b>Date Sent: {current_datetime}</b></p>')
+    html_content=Content('text/html', f'<h1>{firstName}, Thank you for using JPC Converter / Encryptor!</h1><p>{contentOfMessage}</p><p><b>Date Sent: {current_datetime}</b></p>')
     attachedFile = Attachment(
         FileContent(encoded_file),
         FileName(f'{current_datetime}__{DesiredFilename}'),
@@ -114,7 +114,7 @@ def sendEmailFunc(sendFROMemail,sendTOemail,subjectLine,contentOfMessage,attachm
 
 
 # will open the pic file in the uploads folder, convert to text, then convert text to mp3
-def openPic(filenameAndExtenstion,userEmail):
+def openPic(filenameAndExtenstion,userEmail,firstName,lastName):
 
     """ This portion Converts Img to Text """
     imageToOpen = Image.open(rf"./UPLOADS/{filenameAndExtenstion}") # sets url
@@ -180,7 +180,7 @@ def openPic(filenameAndExtenstion,userEmail):
     attachmentOfEmail = f"{outgoingZip}.zip" 
     desiredEmailFilename = f"{outgoingZip}.zip"
 
-    sendEmailFunc(sourceEmail,outboundEmail,subjectOfEmail,contentOfEmail,attachmentOfEmail,desiredEmailFilename)
+    sendEmailFunc(sourceEmail,outboundEmail,subjectOfEmail,contentOfEmail,attachmentOfEmail,desiredEmailFilename,firstName,lastName)
     print("Finished Sending Email!")
 
     """ Key will be sent out via text here """
@@ -243,7 +243,7 @@ def upload_file():
                     ##return redirect(url_for('download_file', name=filename))
 
             # function to convert to text, convert to mp3, encrypt and clean up UPLOADS
-            openPic(filename,form_email)
+            openPic(filename,form_email,first_name,last_name)
 
             """ This Will let the user download the file, then deletes all files in outbound """
             try:
