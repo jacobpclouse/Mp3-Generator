@@ -267,6 +267,11 @@ def login():
         user_username = request.form["html_username"]
         user_password = request.form["html_password"]
 
+        # print(f"Username is: {user_username}")
+        # print(f"Username is: {user_password}")
+
+    # NEED TO HAVE A CHECK TO LOOK AT DATABASE AND SEE IF THE USER EXISTS
+
     # else: 
     return render_template('login.html', html_title = title)
 

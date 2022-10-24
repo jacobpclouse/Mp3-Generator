@@ -12,7 +12,7 @@
     
 }
 
-input[type=text], input[type=tel] {
+input[type=text], input[type=tel], input[type=password] {
     width: 100%;
     background-color: var(--clr-background);
     height: 40px;

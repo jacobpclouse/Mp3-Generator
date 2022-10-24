@@ -6,12 +6,17 @@
 {% block content %}
     <h1>{% block title %} {{html_title}} {% endblock %}</h1>
 
-    <form id="report-form" action="/report" method="POST">
+    <form id="report-form" method="POST">
+
+        <!-- Form area to enter username -->
         <label for="username">Your Username: </label>
         <input type="text" id="username" class="form-control" placeholder="Input your username here" name="html_username" required>
     
+        <!-- Form area to enter password -->
         <label for="password">Your Password: </label>
         <input type="password" id="password" class="form-control" placeholder="Input your password here" name="html_password" required>
     
+        <!-- Submit -->
+        <input type=submit value=Login class="btn" id="button-standout">
     </form>
 {% endblock %}
