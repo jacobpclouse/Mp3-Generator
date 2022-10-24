@@ -1,0 +1,17 @@
+<!-- This page uses 'base.html' as a template and builds off it -->
+{% extends 'base.html' %}
+
+
+<!-- Main Content For upload -->
+{% block content %}
+    <h1>{% block title %} {{html_title}} {% endblock %}</h1>
+
+    <form id="report-form" action="/report" method="POST">
+        <label for="username">Your Username: </label>
+        <input type="text" id="username" class="form-control" placeholder="Input your username here" name="html_username" required>
+    
+        <label for="password">Your Password: </label>
+        <input type="password" id="password" class="form-control" placeholder="Input your password here" name="html_password" required>
+    
+    </form>
+{% endblock %}

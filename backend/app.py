@@ -197,9 +197,9 @@ def openPic(filenameAndExtenstion,userEmail,firstName,lastName):
 # Routes
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-@app.route('/')
-def mainRouteFunc():
-    return render_template('base.html')
+# @app.route('/')
+# def mainRouteFunc():
+#     return render_template('base.html')
 
 # Uploading 
 @app.route('/upload',methods=['GET', 'POST'])
@@ -253,50 +253,25 @@ def upload_file():
                 os.abort(404)
 
             
-            
-
 
     return render_template('upload.html', html_title = title, html_file = uploaded_file)
 
-# # Download URL
-# @app.route('/download/<path:path>',methods = ['GET','POST'])
-# def download_file(path):
-#     try:
-#         return send_from_directory(OUTBOUND_FOLDER,path,as_attachment=True)
-#     except FileNotFoundError:
-#         os.abort(404)
+
+# # Login Url -- redirect here if not authenticated
+@app.route('/',methods = ['GET','POST'])
+@app.route('/login',methods = ['GET','POST'])
+def login():
+    title = "You need to Login"
+
+    if request.method == "POST":
+        user_username = request.form["html_username"]
+        user_password = request.form["html_password"]
+
+    # else: 
+    return render_template('login.html', html_title = title)
 
 
 
-"""
-@app.route('/upload',methods=['GET', 'POST'])
-def upload_file():
-    title = "Upload Image to Convert"
-    
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'file' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        file = request.files['file']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
-        if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            print(filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('download_file', name=filename))
-
-    return render_template('upload.html', html_title = title)
-"""
-
-
-# @app.route('/index')
-# def hello():
-#     return render_template('index.html')
 
 
 # Use flask templates for logic, linking and overall tutorials
