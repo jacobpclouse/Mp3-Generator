@@ -1,5 +1,6 @@
 # Mp3-Generator
 A web app that uses Python, Flask, Angular and more to generate mp3s from scans of text
+-
 
 # Installs required:
 - Need to have all libraries listed in the app installed on your machine with pip **
