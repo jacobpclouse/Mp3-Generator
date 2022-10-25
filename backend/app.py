@@ -48,8 +48,9 @@ class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True,nullable=False)
     mp3Username = db.Column(db.String(200),nullable=False)
     mp3UserPassword = db.Column(db.String(200),nullable=False)
-    mp3UserPhone = db.Column(db.Float(10),nullable=False)
-    mp3UserEmail = db.Column(db.String(120),nullable=False)
+    #mp3UserPhone = db.Column(db.Float(10),nullable=False)
+    #mp3UserEmail = db.Column(db.String(120),nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True),server_default=func.now())
 
     # function to return string when added to db
     def __repr__(self):
@@ -300,9 +301,23 @@ def login():
 
 
 
-@app.route('/signup')
+@app.route('/signup',methods = ['GET','POST'])
 def signup():
     title = "You need to Sign Up"
+
+    if request.method == 'POST':
+        username = request.form['signup_username']
+        password = request.form['signup_password']
+        newUser = Users(mp3Username=username,mp3UserPassword=password)
+        db.session.add(newUser)
+        db.session.commit()
+
+        # Set login var to true
+        #LoginVar = True
+
+        return redirect(url_for('upload_file'))
+
+
     return render_template('signup.html', html_title = title)
 
 
