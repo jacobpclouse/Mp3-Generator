@@ -9,16 +9,15 @@
     <form id="report-form" method="POST">
 
         <!-- Form area to enter username -->
-        <label for="username">Your Username: </label>
+        <label for="username">Desired Username: </label>
         <input type="text" id="username" class="form-control" placeholder="Input your username here" name="html_username" required>
     
         <!-- Form area to enter password -->
-        <label for="password">Your Password: </label>
+        <label for="password">Desired Password: </label>
         <input type="password" id="password" class="form-control" placeholder="Input your password here" name="html_password" required>
     
         <!-- Submit -->
-        <input type=submit value=Login class="btn" id="button-standout">
+        <input type=submit value="Sign Up" class="btn" id="button-standout">
     </form>
-
-    <a href="{{ url_for('signup') }}">Don't have an account? Sign Up</a>
+    <a href="{{ url_for('login') }}">Already have an account? Login</a>
 {% endblock %}

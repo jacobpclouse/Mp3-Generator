@@ -1,6 +1,7 @@
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Importing Libraries / Modules 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+from enum import unique
 import os,shutil
 from flask import Flask, flash, request, redirect, url_for, render_template,send_from_directory
 from werkzeug.utils import secure_filename
@@ -14,6 +15,9 @@ from sendgrid.helpers.mail import Mail, Email, To, Content, Attachment, FileCont
 import datetime
 from zipfile import ZipFile
 from os.path import basename
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
+
 
 # Folder to save upload photos to and file types 
 UPLOAD_FOLDER = './UPLOADS'
@@ -31,6 +35,25 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.secret_key = 'super secret key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
+
+# Database setup 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Init the Database
+db = SQLAlchemy(app)
+
+# Create Database model -- Will make fields required later
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True, unique=True,nullable=False)
+    mp3Username = db.Column(db.String(200),nullable=False)
+    mp3UserPassword = db.Column(db.String(200),nullable=False)
+    mp3UserPhone = db.Column(db.Float(10),nullable=False)
+    mp3UserEmail = db.Column(db.String(120),nullable=False)
+
+    # function to return string when added to db
+    def __repr__(self):
+        return "<mp3Username %r" % self.id
 
 # =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Functions
@@ -277,6 +300,10 @@ def login():
 
 
 
+@app.route('/signup')
+def signup():
+    title = "You need to Sign Up"
+    return render_template('signup.html', html_title = title)
 
 
 # Use flask templates for logic, linking and overall tutorials
