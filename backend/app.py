@@ -321,6 +321,13 @@ def signup():
     return render_template('signup.html', html_title = title)
 
 
+
+
+@app.route('/decrypt')
+def decrypt():
+    title = "decrypt is a work in progress!!"
+    return render_template('base.html', html_title = title)
+
 # Use flask templates for logic, linking and overall tutorials
 # https://www.digitalocean.com/community/tutorials/how-to-use-templates-in-a-flask-application#step-4-using-conditionals-and-loops
 # THEN build out backend, add frontend/then bootstrap and angular
