@@ -44,6 +44,8 @@ if doesExist == True:
     with open('./mykey.key', 'rb') as key_file:
         theKey = key_file.read()
 
+        f = Fernet(theKey)
+
 
 ###-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 ### If key doesn't exist, then ask user
