@@ -19,7 +19,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 import email, smtplib, ssl # used to send sms via email gateway!
 from providers import PROVIDERS # used to import various email provider email gateway info
-
+from pathlib import Path # used to delete old files in folder
 
 # Folder to save upload photos to and file types 
 UPLOAD_FOLDER = './UPLOADS'
@@ -28,6 +28,8 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 # Folder to save files that I will be sending to the user
 OUTBOUND_FOLDER = './OUTBOUND'
 
+# outbound zip name
+sendThisZip = 'Encrypted MP3 Conversion Archive & Data'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -70,6 +72,11 @@ def defang_datetime():
     current_datetime = current_datetime.replace(" ","_")
     
     return current_datetime
+
+# --- Function to delete files inside directory (without deleting directory itself) ---
+def emptyFolder(directoryPath):
+    [f.unlink() for f in Path(directoryPath).glob("*") if f.is_file()] 
+
 
 # used to find ending type for file AND checking to make sure that it is an allowed type
 def allowed_file(filename):
@@ -179,7 +186,7 @@ def sendEmailFunc(sendFROMemail,sendTOemail,subjectLine,contentOfMessage,attachm
 
 
 # will open the pic file in the uploads folder, convert to text, then convert text to mp3
-def openPic(filenameAndExtenstion,userEmail,firstName,lastName):
+def openPic(filenameAndExtenstion,userEmail,firstName,lastName,outgoingZip):
 
     """ This portion Converts Img to Text """
     imageToOpen = Image.open(rf"./UPLOADS/{filenameAndExtenstion}") # sets url
@@ -221,8 +228,8 @@ def openPic(filenameAndExtenstion,userEmail,firstName,lastName):
         encrypted_file.write(encrypted)
     
     # Copy decrypt and readme to the outboud directory and then zip them
-    outgoingZip = 'Encrypted MP3 Conversion Archive & Data'
-    copyAndZip('./OUTBOUND',outgoingZip,'./IMPORTANT_FILES/')
+    #outgoingZip = 'Encrypted MP3 Conversion Archive & Data'
+    copyAndZip('./OUTBOUND',f"{outgoingZip}",'./IMPORTANT_FILES/')
 
     ## Below printing keys to console, only for testing -- disable for prd
     '''
@@ -240,18 +247,15 @@ def openPic(filenameAndExtenstion,userEmail,firstName,lastName):
 
     subjectOfEmail = "Here is Your Converted MP3!"
     contentOfEmail = "Your file will be attached below, you need to decrypt it with your key before you can listen to it."
-    #attachmentOfEmail = "./OUTBOUND/encryptedMessage.mp3" 
-    #desiredEmailFilename = "encryptedMessage.mp3"
     attachmentOfEmail = f"{outgoingZip}.zip" 
     desiredEmailFilename = f"{outgoingZip}.zip"
 
     sendEmailFunc(sourceEmail,outboundEmail,subjectOfEmail,contentOfEmail,attachmentOfEmail,desiredEmailFilename,firstName,lastName)
     print("Finished Sending Email!")
 
-    """ Key will be sent out via text here """
-    
 
-    """ All files in UPLOADS must be cleared out """
+    """ Move the outgoing zip into the OUTBOUND folder """
+    shutil.move(f"{outgoingZip}.zip", f"./OUTBOUND/{outgoingZip}.zip")
 
 
 
@@ -311,9 +315,10 @@ def upload_file():
                     ##return redirect(url_for('download_file', name=filename))
 
             # function to convert to text, convert to mp3, encrypt and clean up UPLOADS
-            openPic(filename,form_email,first_name,last_name)
+            openPic(filename,form_email,first_name,last_name,sendThisZip)
 
 
+            """ Key will be sent out via text here """
             # function to send out email with secret key to the user's phone
             smsSenderEmail = "mp3converterandencryptor@gmail.com"
             smsAppKey = "vunbouvogkeazgxp"
@@ -323,12 +328,24 @@ def upload_file():
             actualSendOutSMS(form_phone,the_key,form_carrier,smsSenderEmail,smsAppKey)
 
 
-            """ This Will let the user download the file, then deletes all files in outbound """
+
+            """ This Will let the user download the file, then deletes all files in outbound and uploads """
             try:
                 #return send_from_directory("./OUTBOUND","encryptedMessage.mp3",as_attachment=True)
-                return send_from_directory("./UPLOADS","mykey.key",as_attachment=True)
+                #send_from_directory("./UPLOADS","mykey.key",as_attachment=True)
+                
+                return send_from_directory(UPLOAD_FOLDER,"mykey.key",as_attachment=True)
+                
             except FileNotFoundError:
                 os.abort(404)
+
+            finally:
+                # this cleans out both upload and outbound folders
+                emptyFolder(OUTBOUND_FOLDER)
+                emptyFolder(UPLOAD_FOLDER)
+            
+
+            
 
             
 
