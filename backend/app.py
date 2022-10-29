@@ -17,6 +17,8 @@ from zipfile import ZipFile
 from os.path import basename
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
+import email, smtplib, ssl # used to send sms via email gateway!
+from providers import PROVIDERS # used to import various email provider email gateway info
 
 
 # Folder to save upload photos to and file types 
@@ -25,7 +27,6 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 # Folder to save files that I will be sending to the user
 OUTBOUND_FOLDER = './OUTBOUND'
-
 
 
 app = Flask(__name__)
@@ -74,6 +75,46 @@ def defang_datetime():
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+# used to construct text message and send it out via email gateway (from guide: https://www.alfredosequeida.com/blog/how-to-send-text-messages-for-free-using-python-use-python-to-send-text-messages-via-email/)
+def send_sms_via_email(
+    number: str,
+    message: str,
+    provider: str,
+    sender_credentials: tuple,
+    subject: str = "sent using etext",
+    smtp_server: str = "smtp.gmail.com",
+    smtp_port: int = 465,
+):
+    sender_email, email_password = sender_credentials
+    receiver_email = f'{number}@{PROVIDERS.get(provider).get("sms")}'
+
+    email_message = f"Subject:{subject}\nTo:{receiver_email}\n{message}"
+    print(email_message)
+
+    with smtplib.SMTP_SSL(
+        smtp_server, smtp_port, context=ssl.create_default_context()
+    ) as email:
+        email.login(sender_email, email_password)
+        email.sendmail(sender_email, receiver_email, email_message)
+
+# MAIN SMS SENDER - NEED TO USE THIS ONE 
+def actualSendOutSMS(number,secretKey,carrier,senderEmail,applicationKey):
+    newTel = ''
+    for x in number:
+        # stripping out the dashes in order to send sms
+        if x != '-':
+            newTel = newTel + x
+
+    number = f"{newTel}"
+    message = f"Your Secret Key is: {secretKey}"
+    provider = f"{carrier}"
+
+    sender_credentials = (f"{senderEmail}", f"{applicationKey}")
+    print(f"Sending Text message to to: {number}, {message}, {provider}, {sender_credentials}")
+    send_sms_via_email(number, message, provider, sender_credentials)
+
 
 
 # used to find ending type for file only (for creating temp pic in UPLOADS)
@@ -252,9 +293,12 @@ def upload_file():
             form_email = request.form.get("userEmail")
             # getting input with email = userEmail in HTML form
             form_phone = request.form.get("userPhone")
+            # getting input with carrier = userCarrier in HTML form
+            form_carrier = request.form.get("userCarrier")
 
             print(f"User's Name: {first_name} {last_name}")
             print(f"User's Phone: {form_phone}")
+            print(f"User's Phone Carrier: {form_carrier}")
 
             secureTheFile = secure_filename(file.filename)
             extensionType = getExtension(secureTheFile)
@@ -268,6 +312,16 @@ def upload_file():
 
             # function to convert to text, convert to mp3, encrypt and clean up UPLOADS
             openPic(filename,form_email,first_name,last_name)
+
+
+            # function to send out email with secret key to the user's phone
+            smsSenderEmail = "mp3converterandencryptor@gmail.com"
+            smsAppKey = "vunbouvogkeazgxp"
+            with open('./UPLOADS/mykey.key', 'rb') as key_file:
+                the_key = key_file.read()
+
+            actualSendOutSMS(form_phone,the_key,form_carrier,smsSenderEmail,smsAppKey)
+
 
             """ This Will let the user download the file, then deletes all files in outbound """
             try:

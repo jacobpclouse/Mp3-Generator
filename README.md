@@ -30,3 +30,5 @@ A web app that uses Python, Flask, Angular and more to generate mp3s from scans 
 - Copy files to directory: https://www.tutorialspoint.com/How-to-copy-files-to-a-new-directory-using-Python
 - Creating a zip file: https://thispointer.com/python-how-to-create-a-zip-archive-from-multiple-files-or-directory/
 - Issue with creating zip: https://stackoverflow.com/questions/71053352/valueerror-write-requires-mode-w-x-or-a-in-python-zipfile
+- Plvio Send SMS Python: https://www.plivo.com/docs/sms/use-cases/send-an-sms/python/
+- Send text messages for free with sms gateways: https://www.youtube.com/watch?v=4-ysecoraKo
