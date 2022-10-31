@@ -185,7 +185,7 @@ def sendEmailFunc(sendFROMemail,sendTOemail,subjectLine,contentOfMessage,attachm
     print(response.headers)
 
 
-# will open the pic file in the uploads folder, convert to text, then convert text to mp3
+# will open the pic file in the uploads folder, convert to text, then convert text to mp3 and encrypt it
 def openPic(filenameAndExtenstion,userEmail,firstName,lastName,outgoingZip):
 
     """ This portion Converts Img to Text """
@@ -208,6 +208,7 @@ def openPic(filenameAndExtenstion,userEmail,firstName,lastName,outgoingZip):
     myobj.save("./UPLOADS/convertedMessage.mp3")
 
 
+##### ------ ##### ------ ##### ------ ##### ------ ##### ------ ##### ------ Do a check here to see if we want it encrypted
     """ This portion Encrypts the Mp3 and saves to the outbound folder (using datetime) """
     # Generating key
     newKey = Fernet.generate_key()
@@ -227,6 +228,8 @@ def openPic(filenameAndExtenstion,userEmail,firstName,lastName,outgoingZip):
     with open ('./OUTBOUND/encryptedMessage.mp3', 'wb') as encrypted_file:
         encrypted_file.write(encrypted)
     
+##### ------ ##### ------ ##### ------ ##### ------ ##### ------ ##### ------ 
+
     # Copy decrypt and readme to the outboud directory and then zip them
     #outgoingZip = 'Encrypted MP3 Conversion Archive & Data'
     copyAndZip('./OUTBOUND',f"{outgoingZip}",'./IMPORTANT_FILES/')
@@ -299,10 +302,13 @@ def upload_file():
             form_phone = request.form.get("userPhone")
             # getting input with carrier = userCarrier in HTML form
             form_carrier = request.form.get("userCarrier")
+            # getting input with encryption = encryption_choice in HTML form
+            form_encryption = request.form.get("encryption_choice")
 
             print(f"User's Name: {first_name} {last_name}")
             print(f"User's Phone: {form_phone}")
             print(f"User's Phone Carrier: {form_carrier}")
+            print(f"Want Encryption? : {form_encryption}")
 
             secureTheFile = secure_filename(file.filename)
             extensionType = getExtension(secureTheFile)
@@ -341,8 +347,8 @@ def upload_file():
 
             finally:
                 # this cleans out both upload and outbound folders
-                emptyFolder(OUTBOUND_FOLDER)
-                emptyFolder(UPLOAD_FOLDER)
+                emptyFolder("./OUTBOUND")
+                emptyFolder("./UPLOADS")
             
 
             

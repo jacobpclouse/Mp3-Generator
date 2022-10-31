@@ -35,4 +35,4 @@ A web app that uses Python, Flask, Angular and more to generate mp3s from scans 
 - try, except and finally tutorial: https://www.geeksforgeeks.org/try-except-else-and-finally-in-python/
 - moving files with python: https://stackoverflow.com/questions/8858008/how-to-move-a-file-in-python
 - delete contents of a folder with python (while leaving folder itself): https://stackoverflow.com/questions/185936/how-to-delete-the-contents-of-a-folder
-- 
+- Radio buttons in html: https://www.w3schools.com/tags/att_input_type_radio.asp

@@ -56,3 +56,20 @@ label {
 #button-standout{
     border: 3px solid var(--clr-dark);
 }
+
+/* Radio box */
+
+input[type="radio"] {
+    margin-right: 2px;
+  }
+
+.radioBox {
+    display: flex;
+    justify-content: start;
+}
+
+.radioBoxChoice {
+    padding-left: 10px;
+    padding-right: 15px;
+
+}
