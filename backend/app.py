@@ -130,10 +130,12 @@ def getExtension(inputFile):
 
 
 # copy readme and decrypt to the OUTBOUND folder and zip all the files (use "OUTBOUND")
-def copyAndZip(destinationDirectory,outputZipFileName,originDirectory):
-    files = [f'{originDirectory}decrypt.py', f'{originDirectory}readme.txt']
-    for f in files:
-        shutil.copy(f, destinationDirectory)
+def copyAndZip(destinationDirectory,outputZipFileName,originDirectory,encryptedOrPlaintext):
+    # if the file is encrypted, load decryption script and instructions to zip
+    if (encryptedOrPlaintext != "plaintext"):
+        files = [f'{originDirectory}decrypt.py', f'{originDirectory}readme.txt']
+        for f in files:
+            shutil.copy(f, destinationDirectory)
 
     #shutil.make_archive(outputZipFileName, 'zip', destinationDirectory)
     with ZipFile(f'{outputZipFileName}.zip','w') as myzip:
@@ -186,7 +188,7 @@ def sendEmailFunc(sendFROMemail,sendTOemail,subjectLine,contentOfMessage,attachm
 
 
 # will open the pic file in the uploads folder, convert to text, then convert text to mp3 and encrypt it
-def openPic(filenameAndExtenstion,userEmail,firstName,lastName,outgoingZip):
+def openPic(filenameAndExtenstion,userEmail,firstName,lastName,outgoingZip,encryptOrPlaintext):
 
     """ This portion Converts Img to Text """
     imageToOpen = Image.open(rf"./UPLOADS/{filenameAndExtenstion}") # sets url
@@ -209,30 +211,43 @@ def openPic(filenameAndExtenstion,userEmail,firstName,lastName,outgoingZip):
 
 
 ##### ------ ##### ------ ##### ------ ##### ------ ##### ------ ##### ------ Do a check here to see if we want it encrypted
-    """ This portion Encrypts the Mp3 and saves to the outbound folder (using datetime) """
-    # Generating key
-    newKey = Fernet.generate_key()
-    f = Fernet(newKey)
-    # Writing newkey to outbound -- can remove later and just send to the user in text - TESTING ONLY
-    with open('./UPLOADS/mykey.key', 'wb') as mykey:
-        mykey.write(newKey)
+    if(encryptOrPlaintext != "plaintext"):
+        """ This portion Encrypts the Mp3 and saves to the outbound folder (using datetime) """
+        # Generating key
+        newKey = Fernet.generate_key()
+        f = Fernet(newKey)
+        # Writing newkey to outbound 
+        with open('./UPLOADS/mykey.key', 'wb') as mykey:
+            mykey.write(newKey)
 
-    # Opening up original File
-    with open('./UPLOADS/convertedMessage.mp3', 'rb') as original_file:
-        original = original_file.read()
+        # Opening up original File
+        with open('./UPLOADS/convertedMessage.mp3', 'rb') as original_file:
+            original = original_file.read()
 
-    # Encrypting
-    encrypted = f.encrypt(original)
+        # Encrypting
+        encrypted = f.encrypt(original)
 
-    # Saving to output
-    with open ('./OUTBOUND/encryptedMessage.mp3', 'wb') as encrypted_file:
-        encrypted_file.write(encrypted)
-    
+        # Saving to output
+        with open ('./OUTBOUND/encryptedMessage.mp3', 'wb') as encrypted_file:
+            encrypted_file.write(encrypted)
+    else:
+        # creating dummy key data -- just an fyi!
+        dummyData = "This file is unencrypted and there was no key, you should be able to just open it"
+        res = bytes(dummyData, 'utf-8')
+        # Writing newkey to outbound 
+        with open('./UPLOADS/mykey.key', 'wb') as mykey:
+            mykey.write(res)
+
+        # moving data to the outbound folder
+        shutil.copy2('./UPLOADS/convertedMessage.mp3', './OUTBOUND')
+        shutil.copy2('./UPLOADS/mykey.key', './OUTBOUND/unencryptedMsg.key')
+
+
 ##### ------ ##### ------ ##### ------ ##### ------ ##### ------ ##### ------ 
 
     # Copy decrypt and readme to the outboud directory and then zip them
     #outgoingZip = 'Encrypted MP3 Conversion Archive & Data'
-    copyAndZip('./OUTBOUND',f"{outgoingZip}",'./IMPORTANT_FILES/')
+    copyAndZip('./OUTBOUND',f"{outgoingZip}",'./IMPORTANT_FILES/',encryptOrPlaintext)
 
     ## Below printing keys to console, only for testing -- disable for prd
     '''
@@ -309,6 +324,7 @@ def upload_file():
             print(f"User's Phone: {form_phone}")
             print(f"User's Phone Carrier: {form_carrier}")
             print(f"Want Encryption? : {form_encryption}")
+            # either: "encrypt" or "plaintext"
 
             secureTheFile = secure_filename(file.filename)
             extensionType = getExtension(secureTheFile)
@@ -321,7 +337,7 @@ def upload_file():
                     ##return redirect(url_for('download_file', name=filename))
 
             # function to convert to text, convert to mp3, encrypt and clean up UPLOADS
-            openPic(filename,form_email,first_name,last_name,sendThisZip)
+            openPic(filename,form_email,first_name,last_name,sendThisZip,form_encryption)
 
 
             """ Key will be sent out via text here """
