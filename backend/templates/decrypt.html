@@ -1,0 +1,24 @@
+<!-- This page uses 'base.html' as a template and builds off it -->
+{% extends 'base.html' %}
+
+
+<!-- Main Content For upload -->
+{% block content %}
+    <h1>{% block title %} {{html_title}} {% endblock %}</h1>
+    <form method=post enctype=multipart/form-data>
+      <!-- Adding form data fields below -->
+      <label for="key">Enter your First Name:</label>
+      <input type="text" id="key" name="html_user_key" placeholder="Your Key Here" required>
+
+
+
+      <!-- Below: file upload section -->
+      <input type=file name=file >
+      <input type=submit value=Upload class="btn" id="button-standout">
+    </form>
+    <!-- https://flask.palletsprojects.com/en/2.2.x/patterns/fileuploads/#a-gentle-introduction -->
+
+    {% if html_file != '' %}
+      <h5>File Uploaded: {% block html_file %} {{html_file}} {% endblock %}</h5>
+    {% endif %}
+{% endblock %}
