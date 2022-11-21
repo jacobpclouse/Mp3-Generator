@@ -30,3 +30,10 @@ A web app that uses Python, Flask, Angular and more to generate mp3s from scans 
 - Copy files to directory: https://www.tutorialspoint.com/How-to-copy-files-to-a-new-directory-using-Python
 - Creating a zip file: https://thispointer.com/python-how-to-create-a-zip-archive-from-multiple-files-or-directory/
 - Issue with creating zip: https://stackoverflow.com/questions/71053352/valueerror-write-requires-mode-w-x-or-a-in-python-zipfile
+- Plvio Send SMS Python: https://www.plivo.com/docs/sms/use-cases/send-an-sms/python/
+- Send text messages for free with sms gateways: https://www.youtube.com/watch?v=4-ysecoraKo
+- try, except and finally tutorial: https://www.geeksforgeeks.org/try-except-else-and-finally-in-python/
+- moving files with python: https://stackoverflow.com/questions/8858008/how-to-move-a-file-in-python
+- delete contents of a folder with python (while leaving folder itself): https://stackoverflow.com/questions/185936/how-to-delete-the-contents-of-a-folder
+- Radio buttons in html: https://www.w3schools.com/tags/att_input_type_radio.asp
+- Convert string to bytes: https://www.geeksforgeeks.org/python-convert-string-to-bytes/
